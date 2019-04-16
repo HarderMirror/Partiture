@@ -3,7 +3,9 @@ package musicSheetCreator;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
 
@@ -53,6 +55,13 @@ public class MusicSheetCreator {
 	}
 	private int getSpaceBetweenNotesCenter() {
 		return (int) (width-margin*2)/(numNotes);
+	}
+	private String getNotesText() {
+		String notesText = "";
+		for(int i = 0; i < notes.length; i++) {
+			notesText=notesText + String.format("%d-%d\n",i, notes[i].getCenter().getY());
+		}
+		return notesText;
 	}
     
     private void generateImage() {
@@ -112,8 +121,14 @@ public class MusicSheetCreator {
         g2d.dispose();
 
         File file = new File("myimage.jpg");
+        File data = new File("data.txt");
+        
         try{
         	ImageIO.write(bufferedImage, "jpg", file);
+        	BufferedWriter writer = new BufferedWriter(new FileWriter(data));
+        	writer.write(this.getNotesText());
+        	writer.close();
+        	
         }catch(IOException e) {
         	e.printStackTrace();
         }

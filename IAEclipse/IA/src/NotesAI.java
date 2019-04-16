@@ -1,62 +1,26 @@
 
-public class LineDetection {
+public class NotesAI {
 	private float[] input, weights, bias;
-	private int layers;
 	
-	public LineDetection(float[] input, int layers) {
+	//[3 2 2] = 3 first layer, 2 second, 2 third
+	private int[] layers;
+	
+	public NotesAI(float[] input) {
 		this.setInput(input);
+		
 	}
 	
+	//METHODS
 	
+	private float sigmoid(float Z) {
+		return (float) (1 / (1 + (Math.pow(Math.E,-Z))));
+	}
+	private float derivativeOfSigmoid(float Z) {
+		return this.sigmoid(Z) + (1-this.sigmoid(Z));
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	//GETTERS & SETTERS
 
 	public float[] getInput() {
 		return input;
@@ -70,11 +34,11 @@ public class LineDetection {
 		
 	}
 
-	public int getLayers() {
+	public int[] getLayers() {
 		return layers;
 	}
 
-	public void setLayers(int layers) {
+	public void setLayers(int[] layers) {
 		this.layers = layers;
 	}
 
