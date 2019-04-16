@@ -12,44 +12,48 @@ import javax.imageio.ImageIO;
 public class MusicSheetCreator {
 	private final int width = 1280;
     private final int height = 175;
-    private final int numLines = 5;
-    private final int numNotes = 20;
-    private final int noteWidth = 20;
-    private final int noteHeight = 15;
+    private int numNotes = 20;   
     
-    
-    private final int margin = 20;
-    private final int lineHeight = 5;
-    
-    private final int diff = (int) (height - margin*2) / (numLines*2);
-    private final int diffXNotes = (int) (width-margin*4) / numNotes + noteWidth;
-    
-    private int[] linePositions = new int[numLines*2];
-    private MusicNote[] notes = new MusicNote[numNotes];
+    private final int margin = 30;
+    private final int lineHeight = 4;
+        
+    private int[] linePositions = new int[15];
+    private MusicNote[] notes =  new MusicNote[numNotes];
     
     public MusicSheetCreator() {
+    	
     	getLinePositions();
-    	generateNotes();
+    	generateNotes(20,15);
     	generateImage();
     }
     
     
-    private void generateNotes() {
+    
+    private void generateNotes(int noteWidth, int noteHeight) {
     	Random rn = new Random();
     	for(int i=0; i < numNotes; i++) {
-    		notes[i] = new MusicNote(i, rn.nextInt(linePositions.length));
-    		System.out.println(notes[i].getPosY());
+    		notes[i] = new MusicNote((this.getSpaceBetweenNotesCenter())*i + noteWidth, rn.nextInt(linePositions.length));
+    		notes[i].setHeight(noteHeight);
+    		notes[i].setWidth(noteWidth);
+    		System.out.println(notes[i].getCenter().getY());
     	}
 	}
 
 
 	private void getLinePositions() {    	
-    	int pos = margin;
+    	int pos = (int) (margin);
     	for(int i = 0; i < linePositions.length; i++) {
     		linePositions[i] = pos;
-    		pos+=diff;
+    		pos+=getSpaceBetweenLines();
     	}
     }
+	
+	private int getSpaceBetweenLines() {
+		return (int) (height - margin*2)/(15);
+	}
+	private int getSpaceBetweenNotesCenter() {
+		return (int) (width-margin*2)/(numNotes);
+	}
     
     private void generateImage() {
     	// Constructs a BufferedImage of one of the predefined image types.
@@ -62,14 +66,47 @@ public class MusicSheetCreator {
         g2d.setColor(Color.white);
         g2d.fillRect(0, 0, width, height);
 
-        // create a circle with black
+       
         g2d.setColor(Color.black);
         for(int i = 0; i < linePositions.length; i+=2) {
-        	g2d.fillRect(margin, linePositions[i], width-margin*2, lineHeight);
+        	if(i >= 4 && i < 13) {
+        		g2d.fillRect(margin, linePositions[i]-1, width-margin*2, lineHeight+1);
+        	}
+        	
         }
+        // create a circle with black
         for(int i = 0; i < notes.length; i++) {
-        	g2d.fillOval(notes[i].getPosX()*diffXNotes+30, linePositions[notes[i].getPosY()]+noteHeight/2, noteWidth, noteHeight);
+        	g2d.fillOval((notes[i].getCenter().getX() - notes[i].getWidth()/2)+margin,
+        			linePositions[notes[i].getCenter().getY()]-notes[i].getHeight()/2, notes[i].getWidth(), notes[i].getHeight());
+        	if(notes[i].getCenter().getY() < 3){
+        		
+        		for(int j = notes[i].getCenter().getY() ; j < 3 ; j++) {
+        			if(j % 2 == 0) {
+        				g2d.fillRect(notes[i].getCenter().getX()-notes[i].getWidth() + margin,
+                			linePositions[j]-1,
+                			notes[i].getWidth()*2, lineHeight+1);
+        			}
+        			
+        		}
+    			
+        	}else if(notes[i].getCenter().getY() > 13) {
+        		for(int j = notes[i].getCenter().getY() ; j > 13 ; j--) {
+        			if(j%2 == 0) {
+        				g2d.fillRect(notes[i].getCenter().getX()-notes[i].getWidth() + margin,
+            				linePositions[j]-1,
+            				notes[i].getWidth()*2, lineHeight+1);
+        			}
+        			
+        		}
+        	}
+    		
+    			
+ 		
         }
+        //System.out.println(i);
+        
+
+        
 
         // Disposes of this graphics context and releases any system resources that it is using. 
         g2d.dispose();

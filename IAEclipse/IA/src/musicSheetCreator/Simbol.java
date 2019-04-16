@@ -1,26 +1,37 @@
 package musicSheetCreator;
 
 public abstract class Simbol {
-	private int posX, posY;
+	private VectorXY center;
+	private int width, height;
+	public Simbol(int x, int y) {
+		this.center = new VectorXY(x,y);
+		
+	}
 	
-	public Simbol(int posX, int posY) {
-		this.setPosX(posX);
-		this.setPosY(posY);
+	public VectorXY getCenter() {
+		return center;
+	}
+	public void setCenter(VectorXY center) {
+		this.center = center;
 	}
 
-	public int getPosY() {
-		return posY;
+	public int getHeight() {
+		return height;
 	}
 
-	public void setPosY(int posY) {
-		this.posY = posY;
+	public void setHeight(int height) {
+		this.height = height;
 	}
 
-	public int getPosX() {
-		return posX;
+	public int getWidth() {
+		return width;
 	}
 
-	public void setPosX(int posX) {
-		this.posX = posX;
+	public void setWidth(int width) {
+		this.width = width;
 	}
+	
+	
+
+	
 }
