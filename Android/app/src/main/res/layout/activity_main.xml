@@ -18,5 +18,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/penta2" />
+        app:srcCompat="@raw/penta10" />
 </android.support.constraint.ConstraintLayout>
