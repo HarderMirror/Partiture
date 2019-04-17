@@ -34,7 +34,7 @@ public class MusicSheetCreator {
     private void generateNotes(int noteWidth, int noteHeight) {
     	Random rn = new Random();
     	for(int i=0; i < numNotes; i++) {
-    		notes[i] = new MusicNote((this.getSpaceBetweenNotesCenter())*i + noteWidth, rn.nextInt(linePositions.length));
+    		notes[i] = MusicNotesTypes.generateRandomTypeNote((this.getSpaceBetweenNotesCenter())*i + noteWidth, rn.nextInt(linePositions.length));
     		notes[i].setHeight(noteHeight);
     		notes[i].setWidth(noteWidth);
     		System.out.println(notes[i].getCenter().getY());
@@ -59,7 +59,7 @@ public class MusicSheetCreator {
 	private String getNotesText() {
 		String notesText = "";
 		for(int i = 0; i < notes.length; i++) {
-			notesText=notesText + String.format("%d-%d\n",i, notes[i].getCenter().getY());
+			notesText += String.format("%d-%s", i, notes[i]); 
 		}
 		return notesText;
 	}
@@ -85,32 +85,9 @@ public class MusicSheetCreator {
         }
         // create a circle with black
         for(int i = 0; i < notes.length; i++) {
-        	g2d.fillOval((notes[i].getCenter().getX() - notes[i].getWidth()/2)+margin,
-        			linePositions[notes[i].getCenter().getY()]-notes[i].getHeight()/2, notes[i].getWidth(), notes[i].getHeight());
-        	if(notes[i].getCenter().getY() < 3){
-        		
-        		for(int j = notes[i].getCenter().getY() ; j < 3 ; j++) {
-        			if(j % 2 == 0) {
-        				g2d.fillRect(notes[i].getCenter().getX()-notes[i].getWidth() + margin,
-                			linePositions[j]-1,
-                			notes[i].getWidth()*2, lineHeight+1);
-        			}
-        			
-        		}
-    			
-        	}else if(notes[i].getCenter().getY() > 13) {
-        		for(int j = notes[i].getCenter().getY() ; j > 13 ; j--) {
-        			if(j%2 == 0) {
-        				g2d.fillRect(notes[i].getCenter().getX()-notes[i].getWidth() + margin,
-            				linePositions[j]-1,
-            				notes[i].getWidth()*2, lineHeight+1);
-        			}
-        			
-        		}
-        	}
-    		
-    			
- 		
+        	
+        	
+        	notes[i].paint(g2d, linePositions, lineHeight, margin);
         }
         //System.out.println(i);
         
