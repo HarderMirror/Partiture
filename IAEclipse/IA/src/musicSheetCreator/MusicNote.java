@@ -34,11 +34,14 @@ public abstract class MusicNote extends Simbol {
     	}
 	}
 	
-	protected void drawStick(Graphics2D g2d, int posXDraw, int posYDraw, int offSetX) {
-		int heightStick = 40;
+	protected void drawStick(Graphics2D g2d, int posXDraw, int posYDraw, int offSetX, int linePosY) {
+		int heightStick = 30;
 		int widthStick = 3;
+		boolean reversed = linePosY < 8;
+		int posXStick = reversed ? posXDraw+offSetX : posXDraw+this.getWidth()-widthStick-offSetX;
+		int posYStick = reversed ? posYDraw+10 : posYDraw-heightStick+5;
 		
-		g2d.fillRect(posXDraw+offSetX, posYDraw-heightStick+5, widthStick, heightStick);
+		g2d.fillRect(posXStick, posYStick, widthStick, heightStick);
 	}
 	
 	public float getDuration() {
@@ -51,7 +54,7 @@ public abstract class MusicNote extends Simbol {
 	
 	@Override
 	public String toString() {
-		return String.format("%d-%.3f\n", this.getCenter().getY(), this.getDuration());
+		return String.format("%d-%.4f\n", this.getCenter().getY(), this.getDuration());
 	}
 }
 

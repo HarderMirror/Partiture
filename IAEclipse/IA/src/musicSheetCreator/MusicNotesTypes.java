@@ -52,7 +52,7 @@ class HalfNote extends MusicNote {
 		int posYDraw = linePositions[this.getCenter().getY()]-this.getHeight()/2;
 		g2d.drawOval(posXDraw, posYDraw, this.getWidth(), this.getHeight());
 		
-		super.drawStick(g2d, posXDraw, posYDraw, 0);
+		super.drawStick(g2d, posXDraw, posYDraw, 0, this.getCenter().getY());
 	}
 }
 
@@ -69,7 +69,7 @@ class QuarterNote extends MusicNote {
 		int posYDraw = linePositions[this.getCenter().getY()]-this.getHeight()/2;
 		g2d.fillOval(posXDraw, posYDraw, this.getWidth(), this.getHeight());
 
-		super.drawStick(g2d, posXDraw, posYDraw, 2);
+		super.drawStick(g2d, posXDraw, posYDraw, 1, this.getCenter().getY());
 	}
 	
 }

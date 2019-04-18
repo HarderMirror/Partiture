@@ -15,55 +15,14 @@ import javax.imageio.ImageIO;
 public class MusicSheetCreator {
 	private final int width = 1280;
     private final int height = 175;
-    private int numNotes = 20;   
-    
-    private final int margin = 30;
-    private final int lineHeight = 4;
-        
-    private int[] linePositions = new int[15];
-    private MusicNote[] notes =  new MusicNote[numNotes];
+    private final int numNotes = 20;       
+    private Stave stave;
     
     public MusicSheetCreator() {
-    	
-    	getLinePositions();
-    	generateNotes(20,15);
+    	this.setStave(new Stave(numNotes, width, height));
     	generateImage();
     }
     
-    
-    
-    private void generateNotes(int noteWidth, int noteHeight) {
-    	Random rn = new Random();
-    	for(int i=0; i < numNotes; i++) {
-    		notes[i] = MusicNotesTypes.generateRandomTypeNote((this.getSpaceBetweenNotesCenter())*i + noteWidth, rn.nextInt(linePositions.length));
-    		notes[i].setHeight(noteHeight);
-    		notes[i].setWidth(noteWidth);
-    		System.out.println(notes[i].getCenter().getY());
-    	}
-	}
-
-
-	private void getLinePositions() {    	
-    	int pos = (int) (margin);
-    	for(int i = 0; i < linePositions.length; i++) {
-    		linePositions[i] = pos;
-    		pos+=getSpaceBetweenLines();
-    	}
-    }
-	
-	private int getSpaceBetweenLines() {
-		return (int) (height - margin*2)/(15);
-	}
-	private int getSpaceBetweenNotesCenter() {
-		return (int) (width-margin*2)/(numNotes);
-	}
-	private String getNotesText() {
-		String notesText = "";
-		for(int i = 0; i < notes.length; i++) {
-			notesText += String.format("%d-%s", i, notes[i]); 
-		}
-		return notesText;
-	}
     
     private void generateImage() {
     	// Constructs a BufferedImage of one of the predefined image types.
@@ -81,22 +40,9 @@ public class MusicSheetCreator {
         g2d.setRenderingHints(rh);
        
         g2d.setColor(Color.black);
-        for(int i = 0; i < linePositions.length; i+=2) {
-        	if(i >= 4 && i < 13) {
-        		g2d.fillRect(margin, linePositions[i]-1, width-margin*2, lineHeight+1);
-        	}
-        	
-        }
-        // create a circle with black
-        for(int i = 0; i < notes.length; i++) {
-        	
-        	
-        	notes[i].paint(g2d, linePositions, lineHeight, margin);
-        }
-        //System.out.println(i);
         
-
-        
+        this.getStave().paint(g2d);
+      
 
         // Disposes of this graphics context and releases any system resources that it is using. 
         g2d.dispose();
@@ -107,13 +53,23 @@ public class MusicSheetCreator {
         try{
         	ImageIO.write(bufferedImage, "jpg", file);
         	BufferedWriter writer = new BufferedWriter(new FileWriter(data));
-        	writer.write(this.getNotesText());
+        	writer.write(this.getStave().getNotesText());
         	writer.close();
         	
         }catch(IOException e) {
         	e.printStackTrace();
         }
     }
+
+
+	public Stave getStave() {
+		return stave;
+	}
+
+
+	public void setStave(Stave stave) {
+		this.stave = stave;
+	}
     
     
 
