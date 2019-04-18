@@ -2,6 +2,7 @@ package musicSheetCreator;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -74,7 +75,10 @@ public class MusicSheetCreator {
         // fill all the image with white
         g2d.setColor(Color.white);
         g2d.fillRect(0, 0, width, height);
-
+        RenderingHints rh = new RenderingHints(
+                RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setRenderingHints(rh);
        
         g2d.setColor(Color.black);
         for(int i = 0; i < linePositions.length; i+=2) {
