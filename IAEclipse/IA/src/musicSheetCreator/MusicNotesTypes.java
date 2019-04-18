@@ -4,7 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.util.Random;
 
-public class MusicNotesTypes {
+public abstract class MusicNotesTypes {
 	public static MusicNote generateRandomTypeNote(int posX, int posY) {
 		Random rn = new Random();
 		switch (rn.nextInt(3)) {
