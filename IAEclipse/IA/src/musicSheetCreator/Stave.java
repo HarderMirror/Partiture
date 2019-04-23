@@ -39,7 +39,11 @@ public class Stave {
     private void generateNotes(int noteWidth, int noteHeight) {
     	Random rn = new Random();
     	for(int i=0; i < numNotes; i++) {
-    		notes[i] = MusicNotesTypes.generateRandomTypeNote((this.getSpaceBetweenNotesCenter())*i + noteWidth, rn.nextInt(linePositions.length));
+    		notes[i] = MusicNotesTypes.generateRandomTypeNote(
+		    			  (this.getSpaceBetweenNotesCenter())*i + noteWidth, 
+		    			  rn.nextInt(linePositions.length), 
+		    			  i>0 ? notes[i-1] : null
+    				   );
     		notes[i].setHeight(noteHeight);
     		notes[i].setWidth(noteWidth);
     		System.out.println(notes[i].getCenter().getY());

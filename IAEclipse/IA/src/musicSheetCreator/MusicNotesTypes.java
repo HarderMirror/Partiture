@@ -1,75 +1,40 @@
 package musicSheetCreator;
 
-import java.awt.BasicStroke;
-import java.awt.Graphics2D;
 import java.util.Random;
 
 public abstract class MusicNotesTypes {
-	public static MusicNote generateRandomTypeNote(int posX, int posY) {
+	public static MusicNote generateRandomTypeNote(int posX, int posY, MusicNote prevNote) {
 		Random rn = new Random();
-		switch (rn.nextInt(3)) {
+		switch (rn.nextInt(9)) {
 			case 0:
 				return new WholeNote(posX, posY);
 			case 1:
 				return new HalfNote(posX, posY);
 			case 2:
 				return new QuarterNote(posX, posY);
+			case 3:
+				return isJoinable(prevNote) ? new EightNote(posX, posY, false, true) : new EightNote(posX, posY, true, false);
+			case 4:
+				return isJoinable(prevNote) ? new SixteenthNote(posX, posY, false, true) : new SixteenthNote(posX, posY, true, false);
+			case 5:
+				return isJoinable(prevNote) ? new ThirtySecondNote(posX, posY, false, true) : new ThirtySecondNote(posX, posY, true, false);
+			case 6:
+				return isJoinable(prevNote) ? new SixtyFourthNote(posX, posY, false, true) : new SixtyFourthNote(posX, posY, true, false);
+			case 7:
+				return isJoinable(prevNote) ? new HundredTwentyEighth(posX, posY, false, true) : new HundredTwentyEighth(posX, posY, true, false);
+			case 8:
+				return isJoinable(prevNote) ? new TwoHundredFiftySixthNote(posX, posY, false, true) : new TwoHundredFiftySixthNote(posX, posY, true, false);
 			default:
 				return new WholeNote(posX, posY);
 		}
+	}
+	
+	private static boolean isJoinable(MusicNote prevNote) {
+		boolean joinable = prevNote instanceof JoinableNote;
+		if(joinable) {
+			((JoinableNote) prevNote).setJoined(true);
+		}
 		
+		return joinable;
 	}
-}
-
-
-class WholeNote extends MusicNote {
-	private final static float DURATION = 1;
-	
-	public WholeNote(int posX, int posY) {
-		super(posX, posY, DURATION);
-	}
-	
-	public void paint(Graphics2D g2d, int[] linePositions, int lineHeight, int margin) {
-		super.paint(g2d, linePositions, lineHeight, margin);
-		g2d.setStroke(new BasicStroke(5f));
-		g2d.drawOval((this.getCenter().getX() - this.getWidth()/2)+margin,
-    			linePositions[this.getCenter().getY()]-this.getHeight()/2, this.getWidth(), this.getHeight());
-		
-	}
-}
-
-class HalfNote extends MusicNote {
-	private final static float DURATION = 1/2f;
-	
-	public HalfNote(int posX, int posY) {
-		super(posX, posY, DURATION);
-	}
-	
-	public void paint(Graphics2D g2d, int[] linePositions, int lineHeight, int margin) {
-		super.paint(g2d, linePositions, lineHeight, margin);
-		g2d.setStroke(new BasicStroke(3f));
-		int posXDraw = (this.getCenter().getX() - this.getWidth()/2)+margin;
-		int posYDraw = linePositions[this.getCenter().getY()]-this.getHeight()/2;
-		g2d.drawOval(posXDraw, posYDraw, this.getWidth(), this.getHeight());
-		
-		super.drawStick(g2d, posXDraw, posYDraw, 0, this.getCenter().getY());
-	}
-}
-
-class QuarterNote extends MusicNote {
-	private final static float DURATION = 1/4f;
-	
-	public QuarterNote(int posX, int posY) {
-		super(posX, posY, DURATION);
-	}
-	
-	public void paint(Graphics2D g2d, int[] linePositions, int lineHeight, int margin) {
-		super.paint(g2d, linePositions, lineHeight, margin);
-		int posXDraw = (this.getCenter().getX() - this.getWidth()/2)+margin;
-		int posYDraw = linePositions[this.getCenter().getY()]-this.getHeight()/2;
-		g2d.fillOval(posXDraw, posYDraw, this.getWidth(), this.getHeight());
-
-		super.drawStick(g2d, posXDraw, posYDraw, 1, this.getCenter().getY());
-	}
-	
 }
