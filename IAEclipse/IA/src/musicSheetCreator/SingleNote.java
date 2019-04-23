@@ -8,11 +8,12 @@ import java.awt.Graphics2D;
  * @author David
  */
 public abstract class SingleNote extends MusicNote{
-
 	public SingleNote(int posX, int posY, float duration) {
 		super(posX, posY, duration);
 	}
-
+	public SingleNote(int posX, int posY, float duration, boolean isReversed) {
+		super(posX, posY, duration, isReversed);
+	}
 }
 
 class WholeNote extends SingleNote {
@@ -34,8 +35,8 @@ class WholeNote extends SingleNote {
 class HalfNote extends SingleNote {
 	private final static float DURATION = 2f;
 	
-	public HalfNote(int posX, int posY) {
-		super(posX, posY, DURATION);
+	public HalfNote(int posX, int posY, boolean isReversed) {
+		super(posX, posY, DURATION, isReversed);
 	}
 	
 	public void paint(Graphics2D g2d, int[] linePositions, int lineHeight, int margin) {
@@ -52,8 +53,8 @@ class HalfNote extends SingleNote {
 class QuarterNote extends SingleNote {
 	private final static float DURATION = 1f;
 	
-	public QuarterNote(int posX, int posY) {
-		super(posX, posY, DURATION);
+	public QuarterNote(int posX, int posY, boolean isReversed) {
+		super(posX, posY, DURATION, isReversed);
 	}
 	public void paint(Graphics2D g2d, int[] linePositions, int lineHeight, int margin) {
 		super.paint(g2d, linePositions, lineHeight, margin);

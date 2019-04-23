@@ -11,7 +11,8 @@ public class Stave {
     private final int lineHeight = 1;
         
     private int[] linePositions = new int[15];
-    private MusicNote[] notes =  new MusicNote[numNotes];
+   
+	private MusicNote[] notes =  new MusicNote[numNotes];
     
 	public Stave(int numNotes, int width, int height) {
     	this.setNumNotes(numNotes);
@@ -46,7 +47,6 @@ public class Stave {
     				   );
     		notes[i].setHeight(noteHeight);
     		notes[i].setWidth(noteWidth);
-    		System.out.println(notes[i].getCenter().getY());
     	}
 	}
 
