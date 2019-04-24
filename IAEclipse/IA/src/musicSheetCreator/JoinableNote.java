@@ -62,25 +62,28 @@ public abstract class JoinableNote extends MusicNote{
 		this.getStick().paint(g2d);
 		
 		int offSetYImg = 0;
-		if(prevNote!=null && this.isJoined()) {
+		if(this.getPrevNote()!=null && this.isJoined() && (prevNote instanceof JoinableNote) && ((JoinableNote) (prevNote)).isJoined()) {
 			int offSetY = 0;
-			int x1,x2,y1,y2;
+			int x1,x2,y1,y2,xm,ym;
+			x1 = this.getPrevNote().getStick().getPosXStick();
+			y1 = this.getPrevNote().getStick().getPosYStick();
+			x2 = this.getStick().getPosXStick();
+			y2 = this.getStick().getPosYStick();
+			xm = (x1+x2)/2;
+			ym = (y1+y2)/2;
 			if(this.isReversed()) {
-				x1 = this.getPrevNote().getStick().getPosXStick();
-				y1 = this.getPrevNote().getStick().getPosYStick()+this.getPrevNote().getStick().getHeightStick();
-				x2 = this.getStick().getPosXStick();
-				y2 = this.getStick().getPosYStick()+this.getPrevNote().getStick().getHeightStick();
+				y1 = y1+this.getPrevNote().getStick().getHeightStick();
+				y2 = y2+this.getPrevNote().getStick().getHeightStick();
+				ym = ym+this.getPrevNote().getStick().getHeightStick();
 				for(int i = 0; i < this.getNumSticks(); i++) {
-					g2d.drawLine(x1, y1+offSetY, x2, y2+offSetY);
+					g2d.drawLine(xm, ym+offSetY, x2, y2+offSetY);//Ella misma izquierda
+					g2d.drawLine(x1, y1+offSetY, xm, ym+offSetY);//Anterior derecha
 					offSetY -= 7;
 				}
 			} else {
-				x1 = this.getPrevNote().getStick().getPosXStick();
-				y1 = this.getPrevNote().getStick().getPosYStick();
-				x2 = this.getStick().getPosXStick();
-				y2 = this.getStick().getPosYStick();
 				for(int i = 0; i < this.getNumSticks(); i++) {
-					g2d.drawLine(x1, y1+offSetY, x2, y2+offSetY);
+					g2d.drawLine(xm, ym+offSetY, x2, y2+offSetY);//Ella misma izquierda
+					g2d.drawLine(x1, y1+offSetY, xm, ym+offSetY); //Anterior derecha
 					offSetY += 7;
 				}
 			}
@@ -109,7 +112,9 @@ public abstract class JoinableNote extends MusicNote{
 	}
 	
 	private boolean isJoinable(MusicNote prevNote) {
-		boolean joinable = prevNote instanceof JoinableNote;
+		if(prevNote==null) return false;
+		boolean joinable = prevNote instanceof JoinableNote && Math.abs(this.getCenter().getY() - prevNote.getCenter().getY()) < 40;
+		System.out.println(Math.abs(this.getCenter().getY() - prevNote.getCenter().getY()));
 		if(joinable) {
 			((JoinableNote) prevNote).setJoined(true);
 		}

@@ -5,7 +5,7 @@ import java.util.Random;
 public abstract class MusicNotesTypes {
 	public static MusicNote generateRandomTypeNote(int posX, int posY, MusicNote prevNote) {
 		Random rn = new Random();
-		switch (rn.nextInt(9)) {
+		switch (rn.nextInt(6)) {
 			case 0:
 				return new WholeNote(posX, posY);
 			case 1:
