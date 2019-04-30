@@ -10,7 +10,7 @@ public class Stave {
 	private final int marginNotes = 100;
     private final int lineHeight = 1;
         
-    private int[] linePositions = new int[15];
+    private int[] linePositions = new int[20];
    
 	private MusicNote[] notes =  new MusicNote[numNotes];
     

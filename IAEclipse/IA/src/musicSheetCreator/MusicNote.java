@@ -10,6 +10,21 @@ public abstract class MusicNote extends Simbol {
 		super(posX, posY);
 		this.setDuration(duration);
 		this.setReversed(reversed);
+		for(int i = 0; i < 3; i++) {
+			int note = 0;
+			if(duration==2) {
+				note = 1;
+			} else if (duration==1) {
+				note = 2;
+			}
+			MusicSheetCreator.result[MusicSheetCreator.posResult][MusicSheetCreator.posNote+i] = i==note ? 1 :0;
+		}
+		
+		for(int i = 3; i < 23; i++) {
+			MusicSheetCreator.result[MusicSheetCreator.posResult][MusicSheetCreator.posNote+i] = (i-3)==posY ? 1 : 0;
+		}		
+		MusicSheetCreator.posNote += 23;
+		
 	}
 	public MusicNote(int posX, int posY, float duration) {
 		this(posX, posY, duration, false);
