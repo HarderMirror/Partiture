@@ -8,7 +8,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Random;
+import java.io.ObjectOutputStream;
 
 import javax.imageio.ImageIO;
 
@@ -18,13 +18,78 @@ public class MusicSheetCreator {
     private final int numNotes = 20;       
     private Stave stave;
     
+    public static final int[][][] image = new int[10000][1280][175];
+    public static final int[][] result = new int[10000][460];
+    public static int posResult = 0;
+    public static int posNote = 0;
     public MusicSheetCreator() {
-    	this.setStave(new Stave(numNotes, width, height));
-    	generateImage();
+    	for(int i = 0; i<10000; i++) {
+    		this.setStave(new Stave(numNotes, width, height));
+    		generateImage(i);
+    		posResult++;
+    		posNote = 0;
+//    		System.out.println(posResult);
+    	}
+//    	int count = 0;
+//    	for(int i=0; i<460; i++) {
+//    	 	if(count == 23) {
+//    			count = 0;
+//    			System.out.println();
+//    		}
+//    		count++;
+//    		System.out.print(result[0][i]+" ");
+//    	}
+    	
+    	
+//    	try {
+////    		FileOutputStream x = new FileOutputStream("x.dat");
+//        	File y = new FileOutputStream("y.txt");
+////        	ObjectOutputStream xFile = new ObjectOutputStream(x);
+//        	ObjectOutputStream yFile = new ObjectOutputStream(y);
+////			xFile.writeObject(image);
+////			xFile.close();
+//			yFile.writeObject(result);
+//			yFile.close();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+    	
+        
+        try{
+        	File data = new File("y.txt");
+        	BufferedWriter writer = new BufferedWriter(new FileWriter(data));
+        	String str="";
+        	for(int i = 0; i<10000; i++) {
+        		for(int j = 0; j<460; j++) {
+        			str+=result[i][j];
+            	}
+        	}
+        	writer.write(str);
+        	writer.close();
+        	
+//        	data = new File("x.txt");
+//        	writer = new BufferedWriter(new FileWriter(data));
+//        	str="";
+//        	for(int i = 0; i<1000; i++) {
+//        		for(int j = 0; j<1280; j++) {
+//        			for(int k = 0; k<175; k++) {
+//            			str+=image[i][j][k];
+//                	}
+//            	}
+//        	}
+//        	writer.write(str);
+//        	writer.close();
+        	
+        }catch(IOException e) {
+        	e.printStackTrace();
+        }
+    	
+    	
     }
     
     
-    private void generateImage() {
+    private void generateImage(int pos) {
     	// Constructs a BufferedImage of one of the predefined image types.
         BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
 
@@ -42,23 +107,28 @@ public class MusicSheetCreator {
         g2d.setColor(Color.black);
         
         this.getStave().paint(g2d);
-      
-
+        
         // Disposes of this graphics context and releases any system resources that it is using. 
         g2d.dispose();
-
-        File file = new File("myimage.jpg");
-        File data = new File("data.txt");
+        
+        
+//        for(int x = 0; x<bufferedImage.getWidth(); x++) {
+//        	for(int y=0; y<bufferedImage.getHeight();y++) {
+//        		image[pos][x][y] = bufferedImage.getRGB(x, y);
+//        	}
+//        }
+//        
+        
+        File file = new File(String.format("%d.jpg", posResult));
         
         try{
         	ImageIO.write(bufferedImage, "jpg", file);
-        	BufferedWriter writer = new BufferedWriter(new FileWriter(data));
-        	writer.write(this.getStave().getNotesText());
-        	writer.close();
+
         	
         }catch(IOException e) {
         	e.printStackTrace();
         }
+        
     }
 
 
