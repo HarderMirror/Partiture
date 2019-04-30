@@ -17,13 +17,13 @@ public class MusicSheetCreator {
     private final int height = 175;
     private final int numNotes = 20;       
     private Stave stave;
-    
-    public static final int[][][] image = new int[10000][1280][175];
-    public static final int[][] result = new int[10000][460];
+    private static final int NUM_IMAGES = 20000;
+    public static final int[][][] image = new int[NUM_IMAGES][1280][175];
+    public static final int[][] result = new int[NUM_IMAGES][460];
     public static int posResult = 0;
     public static int posNote = 0;
     public MusicSheetCreator() {
-    	for(int i = 0; i<10000; i++) {
+    	for(int i = 0; i<NUM_IMAGES; i++) {
     		this.setStave(new Stave(numNotes, width, height));
     		generateImage(i);
     		posResult++;
@@ -57,17 +57,14 @@ public class MusicSheetCreator {
     	
         
         try{
-        	File data = new File("y.txt");
-        	BufferedWriter writer = new BufferedWriter(new FileWriter(data));
-        	String str="";
-        	for(int i = 0; i<10000; i++) {
+        	BufferedImage bufferedImage = new BufferedImage(NUM_IMAGES, 460, BufferedImage.TYPE_BYTE_GRAY);
+      
+        	for(int i = 0; i<NUM_IMAGES; i++) {
         		for(int j = 0; j<460; j++) {
-        			str+=result[i][j];
+        			bufferedImage.setRGB(i, j, result[i][j]==1 ? Color.WHITE.getRGB() : Color.BLACK.getRGB());
             	}
         	}
-        	writer.write(str);
-        	writer.close();
-        	
+        	ImageIO.write(bufferedImage, "jpg", new File("y.jpg"));
 //        	data = new File("x.txt");
 //        	writer = new BufferedWriter(new FileWriter(data));
 //        	str="";
@@ -119,7 +116,7 @@ public class MusicSheetCreator {
 //        }
 //        
         
-        File file = new File(String.format("%d.jpg", posResult));
+        File file = new File(String.format("images/%d.jpg", posResult));
         
         try{
         	ImageIO.write(bufferedImage, "jpg", file);
