@@ -6,6 +6,7 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -17,7 +18,7 @@ public class MusicSheetCreator {
     private final int height = 175;
     private final int numNotes = 20;       
     private Stave stave;
-    private static final int NUM_IMAGES = 20000;
+    private static final int NUM_IMAGES = 5000;
     public static final int[][][] image = new int[NUM_IMAGES][1280][175];
     public static final int[][] result = new int[NUM_IMAGES][460];
     public static int posResult = 0;
@@ -41,22 +42,22 @@ public class MusicSheetCreator {
 //    	}
     	
     	
-//    	try {
-////    		FileOutputStream x = new FileOutputStream("x.dat");
-//        	File y = new FileOutputStream("y.txt");
-////        	ObjectOutputStream xFile = new ObjectOutputStream(x);
-//        	ObjectOutputStream yFile = new ObjectOutputStream(y);
-////			xFile.writeObject(image);
-////			xFile.close();
-//			yFile.writeObject(result);
-//			yFile.close();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+    	try {
+    		FileOutputStream x = new FileOutputStream("x.npy");
+    		FileOutputStream y = new FileOutputStream("y.npy");
+        	ObjectOutputStream xFile = new ObjectOutputStream(x);
+        	ObjectOutputStream yFile = new ObjectOutputStream(y);
+			xFile.writeObject(image);
+			xFile.close();
+			yFile.writeObject(result);
+			yFile.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	
         
-        try{
+        /*try{
         	BufferedImage bufferedImage = new BufferedImage(NUM_IMAGES, 460, BufferedImage.TYPE_BYTE_GRAY);
       
         	for(int i = 0; i<NUM_IMAGES; i++) {
@@ -80,7 +81,7 @@ public class MusicSheetCreator {
         	
         }catch(IOException e) {
         	e.printStackTrace();
-        }
+        }*/
     	
     	
     }
@@ -116,7 +117,7 @@ public class MusicSheetCreator {
 //        }
 //        
         
-        File file = new File(String.format("images/%d.jpg", posResult));
+       /* File file = new File(String.format("images/%d.jpg", posResult));
         
         try{
         	ImageIO.write(bufferedImage, "jpg", file);
@@ -124,7 +125,7 @@ public class MusicSheetCreator {
         	
         }catch(IOException e) {
         	e.printStackTrace();
-        }
+        }*/
         
     }
 
