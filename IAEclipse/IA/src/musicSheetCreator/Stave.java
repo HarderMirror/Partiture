@@ -10,6 +10,8 @@ public class Stave {
 	private final int margin = 10, marginH=10;
 	private final int marginNotes = 100; //15
     private final int lineHeight = 1;
+    
+    private final static int NOTE_WIDTH=20, NOTE_HEIGHT = 15;
         
     private int[] linePositions = new int[numLinePositions];
    
@@ -22,7 +24,7 @@ public class Stave {
     	notes = new MusicNote[numNotes];
     	
     	getLinePositions();
-    	generateNotes(20,15);
+    	generateNotes(NOTE_WIDTH, NOTE_HEIGHT);
 	}
 	
 	public void paint(Graphics2D g2d) {
