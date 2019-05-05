@@ -14,16 +14,22 @@ import java.io.ObjectOutputStream;
 import javax.imageio.ImageIO;
 
 public class MusicSheetCreator {
-	private final int width = 1280;
+	private final int width = 1280; //1280
     private final int height = 175;
-    private final int numNotes = 20;       
+    private final static int numNotes = 30;       
     private Stave stave;
-    private static final int NUM_IMAGES = 5000;
-    public static final int[][][] image = new int[NUM_IMAGES][1280][175];
-    public static final int[][] result = new int[NUM_IMAGES][460];
-    public static int posResult = 0;
-    public static int posNote = 0;
+    private static final int NUM_IMAGES = 1000;
+    private static final int NUM_COLS_RESULT = numNotes * 23; //460
+    public static int[][][] image;
+    public static int[][] result;
+    public static int posResult;
+    public static int posNote;
     public MusicSheetCreator() {
+    	image = new int[NUM_IMAGES][width][height];
+    	result = new int[NUM_IMAGES][NUM_COLS_RESULT];
+    	System.out.println("Heap memory assigned");
+    	posResult = 0;
+    	posNote = 0;
     	for(int i = 0; i<NUM_IMAGES; i++) {
     		this.setStave(new Stave(numNotes, width, height));
     		generateImage(i);
@@ -42,33 +48,33 @@ public class MusicSheetCreator {
 //    	}
     	
     	
-    	try {
-    		FileOutputStream x = new FileOutputStream("x.npy");
-    		FileOutputStream y = new FileOutputStream("y.npy");
-        	ObjectOutputStream xFile = new ObjectOutputStream(x);
+    	/*try {
+    		//FileOutputStream x = new FileOutputStream("x.dat");
+    		FileOutputStream y = new FileOutputStream("y.dat");
+        	//ObjectOutputStream xFile = new ObjectOutputStream(x);
         	ObjectOutputStream yFile = new ObjectOutputStream(y);
-			xFile.writeObject(image);
-			xFile.close();
+			//xFile.writeObject(image);
+			//xFile.close();
 			yFile.writeObject(result);
 			yFile.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-    	
+    	*/
         
-        /*try{
-        	BufferedImage bufferedImage = new BufferedImage(NUM_IMAGES, 460, BufferedImage.TYPE_BYTE_GRAY);
+        try{
+        	BufferedImage bufferedImage = new BufferedImage(NUM_COLS_RESULT, NUM_IMAGES, BufferedImage.TYPE_BYTE_GRAY);
       
         	for(int i = 0; i<NUM_IMAGES; i++) {
-        		for(int j = 0; j<460; j++) {
-        			bufferedImage.setRGB(i, j, result[i][j]==1 ? Color.WHITE.getRGB() : Color.BLACK.getRGB());
+        		for(int j = 0; j<NUM_COLS_RESULT; j++) { //CAMBIAR
+        			bufferedImage.setRGB(j, i, result[i][j]==1 ? Color.WHITE.getRGB() : Color.BLACK.getRGB());
             	}
         	}
         	ImageIO.write(bufferedImage, "jpg", new File("y.jpg"));
 //        	data = new File("x.txt");
-//        	writer = new BufferedWriter(new FileWriter(data));
-//        	str="";
+       		//writer = new BufferedWriter(new FileWriter(data));
+        	//str="";
 //        	for(int i = 0; i<1000; i++) {
 //        		for(int j = 0; j<1280; j++) {
 //        			for(int k = 0; k<175; k++) {
@@ -81,7 +87,7 @@ public class MusicSheetCreator {
         	
         }catch(IOException e) {
         	e.printStackTrace();
-        }*/
+        }
     	
     	
     }
@@ -110,14 +116,14 @@ public class MusicSheetCreator {
         g2d.dispose();
         
         
-//        for(int x = 0; x<bufferedImage.getWidth(); x++) {
-//        	for(int y=0; y<bufferedImage.getHeight();y++) {
-//        		image[pos][x][y] = bufferedImage.getRGB(x, y);
-//        	}
-//        }
-//        
+        for(int x = 0; x<bufferedImage.getWidth(); x++) {
+        	for(int y=0; y<bufferedImage.getHeight();y++) {
+        		image[pos][x][y] = bufferedImage.getRGB(x, y);
+        	}
+       }
         
-       /* File file = new File(String.format("images/%d.jpg", posResult));
+        
+       File file = new File(String.format("images/%d.jpg", posResult));
         
         try{
         	ImageIO.write(bufferedImage, "jpg", file);
@@ -125,7 +131,7 @@ public class MusicSheetCreator {
         	
         }catch(IOException e) {
         	e.printStackTrace();
-        }*/
+        }
         
     }
 

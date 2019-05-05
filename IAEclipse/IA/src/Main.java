@@ -1,40 +1,55 @@
 import musicSheetCreator.*;
 
-import java.io.UnsupportedEncodingException;
-
 import org.tensorflow.Graph;
+import org.tensorflow.SavedModelBundle;
 import org.tensorflow.Session;
 import org.tensorflow.Tensor;
 import org.tensorflow.TensorFlow;
+import org.tensorflow.Tensors;
 
 public class Main {
-	public static void main(String[] args) throws Exception {
-		//new MusicSheetCreator();
+	public static void main(String[] args) {
+		createMusicSheet();
 		try {
 			System.loadLibrary("tensorflow_jni");
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-	
-	try (Graph g = new Graph()) {
-	      final String value = "Hello from " + TensorFlow.version();
-
-	      // Construct the computation graph with a single operation, a constant
-	      // named "MyConst" with a value "value".
+	/*
+		try {
+	      SavedModelBundle smb = SavedModelBundle.load("./model_keras", "serve");
+		  Session s = smb.session();
 	      
-	      try (Tensor t = Tensor.create(value.getBytes("UTF-8"))) {
-	        // The Java API doesn't yet include convenience functions for adding operations.
-	        g.opBuilder("Const", "MyConst").setAttr("dtype", t.dataType()).setAttr("value", t).build();
-	      }
-
-	      // Execute the "MyConst" operation in a Session.
-	      try (Session s = new Session(g);
-	          // Generally, there may be multiple output tensors,
-	          // all of them must be closed to prevent resource leaks.
-	          Tensor output = s.runner().fetch("MyConst").run().get(0)) {
-	        System.out.println(new String(output.bytesValue(), "UTF-8"));
-	      }
-	    }
+		  Tensor input_tensor = Tensors.create(MusicSheetCreator.image);
+	      
+	      Tensor result = s.runner()
+	    		  .feed("input_tensor", input_tensor)
+	    		  .fetch("output_tensor")
+	    		  .run().get(0);
+	      
+	      //Tensor tensorSolutionY = Tensors.create(MusicSheetCreator.result);
+	      
+	      System.out.println(new String(result.bytesValue(), "UTF-8"));
+	      
+	    }catch(Exception e) {
+			e.printStackTrace();
+		}*/
 	}
 	
+	
+	private static void createMusicSheet() {
+		new MusicSheetCreator();
+		/*
+		int count = 0;
+		for(int i=0; i<460; i++) {
+    	 	if(count == 23) {
+    			count = 0;
+    			System.out.println();
+   		}
+   		count++;
+    		System.out.print(MusicSheetCreator.result[0][i]+" ");
+    	}
+		System.out.println();
+		*/
+	}
 }

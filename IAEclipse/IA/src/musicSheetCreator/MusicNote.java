@@ -22,7 +22,7 @@ public abstract class MusicNote extends Simbol {
 		
 		for(int i = 3; i < 23; i++) {
 			MusicSheetCreator.result[MusicSheetCreator.posResult][MusicSheetCreator.posNote+i] = (i-3)==posY ? 1 : 0;
-		}		
+		}	
 		MusicSheetCreator.posNote += 23;
 		
 	}
@@ -32,9 +32,9 @@ public abstract class MusicNote extends Simbol {
 	
 	public void paint(Graphics2D g2d, int[] linePositions, int lineHeight, int margin) {
 		super.paint(g2d);
-		if(this.getCenter().getY() < 3){
+		if(this.getCenter().getY() < 5){
     		
-    		for(int j = this.getCenter().getY() ; j < 3 ; j++) {
+    		for(int j = this.getCenter().getY(); j < 5; j++) {
     			if(j % 2 == 0) {
     				g2d.fillRect(this.getCenter().getX()-this.getWidth() + margin,
             			linePositions[j]-1,
@@ -43,8 +43,8 @@ public abstract class MusicNote extends Simbol {
     			
     		}
 			
-    	}else if(this.getCenter().getY() > 13) {
-    		for(int j = this.getCenter().getY() ; j > 13 ; j--) {
+    	}else if(this.getCenter().getY() > 15) {
+    		for(int j = this.getCenter().getY(); j > 15; j--) {
     			if(j%2 == 0) {
     				g2d.fillRect(this.getCenter().getX()-this.getWidth() + margin,
         				linePositions[j]-1,

@@ -5,12 +5,13 @@ import java.util.Random;
 
 public class Stave {
 	private int numNotes, width, height;
-    
-	private final int margin = 30;
-	private final int marginNotes = 100;
+	
+	private final int numLinePositions = 20;
+	private final int margin = 10, marginH=10;
+	private final int marginNotes = 100; //15
     private final int lineHeight = 1;
         
-    private int[] linePositions = new int[20];
+    private int[] linePositions = new int[numLinePositions];
    
 	private MusicNote[] notes =  new MusicNote[numNotes];
     
@@ -26,7 +27,7 @@ public class Stave {
 	
 	public void paint(Graphics2D g2d) {
 		for(int i = 0; i < linePositions.length; i+=2) {
-        	if(i >= 4 && i < 13) {
+        	if(i >= 6 && i < 15) {
         		g2d.fillRect(margin, linePositions[i]-1, width-margin*2, lineHeight+1);
         	}
         }
@@ -60,7 +61,7 @@ public class Stave {
     }
 	
 	private int getSpaceBetweenLines() {
-		return (int) (height - margin*2)/(15);
+		return (int) (height-marginH*2)/(numLinePositions);
 	}
 	private int getSpaceBetweenNotesCenter() {
 		return (int) (width-marginNotes*1.2)/(numNotes);
